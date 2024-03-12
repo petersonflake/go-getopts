@@ -431,6 +431,34 @@ func GetOpts() ([]Rest, error) {
 	return ArgParse(os.Args)
 }
 
+func showOptionHelp(opt option) {
+	if opt.ShortOpt == 0 {
+		//Only long option.  If we have an option with neither,
+		//that's a bug
+		if opt.LongOpt == "" {
+			panic("Long and short options are both empty")
+		}
+
+		fmt.Printf("--%-30s %s\n", opt.LongOpt, opt.Help)
+	} else {
+		if opt.LongOpt == "" {
+		//Have only short opt
+		fmt.Printf("-%-30c %s\n", opt.ShortOpt, opt.Help)
+
+		} else {
+		//Long and short opt
+			combined := fmt.Sprintf("-%c/--%s", opt.ShortOpt, opt.LongOpt)
+			fmt.Printf("%-30s %s\n", combined, opt.Help)
+		}
+	}
+}
+
 func ShowHelp() {
-	panic("TODO")
+	for _, opt := range Options {
+		showOptionHelp(opt.option)
+	}
+
+	for _, flag := range Flags {
+		showOptionHelp(flag.option)
+	}
 }
