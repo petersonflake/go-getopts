@@ -389,7 +389,7 @@ func ArgParse(argv []string) ([]Rest, error) {
 								if j < len(arg) - 1 {
 									//The rest of the clump is the argument to last
 									//recognized short option
-									p.(*Option).addOptArg(arg[j:])
+									p.(*Option).addOptArg(arg[j+1:])
 									break
 								} else {
 									//Here j == len(arg) - 1, index of last byte
@@ -418,7 +418,6 @@ func ArgParse(argv []string) ([]Rest, error) {
 					}
 				}
 			} else {
-				//rest = append(rest, arg)
 				rest = addRest(rest, arg, false)
 			}
 		}
